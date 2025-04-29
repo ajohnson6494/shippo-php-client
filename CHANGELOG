@@ -1,5 +1,5 @@
-=== =2.0.1 2025-04-29
-- Fix: PHP 8.1 deprecation warnings
+=== =3.0.0 2025-04-29
+- Major upgrade to modern PHP Standards
 
 === =2.0.0 2022-01-18
 - Add pickups
