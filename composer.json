@@ -1,5 +1,5 @@
 {
-  "name": "shippo/shippo-php",
+  "name": "ajohnson6494/shippo-php",
   "description": "A PHP library for connecting with multiple carriers (FedEx, UPS, USPS) using Shippo.",
   "keywords": [
     "ups",
@@ -18,6 +18,9 @@
     {
       "name": "Shippo & Contributors",
       "homepage": "https://goshippo.com/"
+    },
+    {
+      "name": "Andrew Donald Johnson"
     }
   ],
   "require": {

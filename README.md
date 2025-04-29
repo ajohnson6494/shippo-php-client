@@ -1,14 +1,6 @@
 # Shippo PHP API wrapper
 
----
-
-:warning: **Shippo no longer actively maintains this library** <br>
-However, you can use it as a starting point and update it for your needs and future changes to our APIs.<br>
-You can use our [Open API Specification](https://docs.goshippo.com/shippoapi/public-api/) to build your own library using tools like the [OpenAPI Generator](https://openapi-generator.tech/) and [Swagger Codegen](https://swagger.io/tools/swagger-codegen/).
-
----
-
-[![Build Status](https://travis-ci.org/goshippo/shippo-php-client.svg?branch=master)](https://travis-ci.org/goshippo/shippo-php-client)
+[![Build Status](https://travis-ci.org/ajohnson6494/shippo-php-client.svg?branch=master)](https://travis-ci.org/ajohnson6494/shippo-php-client)
 
 Shippo is a shipping API that connects you with [multiple shipping carriers](https://goshippo.com/carriers/) (such as USPS, UPS, DHL, Canada Post, Australia Post, UberRUSH and many others) through one interface.
 
@@ -18,7 +10,7 @@ Print a shipping label in 10 mins using our default USPS and DHL Express account
 
 * PHP 5.6 or later.
 
-* [Shippo account](https://goshippo.com/) - free to sign up, free to use the API. Only pay to print a live label, test labels are free. 
+* [Shippo account](https://goshippo.com/) - free to sign up, free to use the API. Only pay to print a live label, test labels are free.
 
 ## Installation
 
@@ -29,10 +21,10 @@ Print a shipping label in 10 mins using our default USPS and DHL Express account
 
         {
           "require": {
-            "shippo/shippo-php": "1.*"
+            "ajohnson6494/shippo-php": "1.*"
           }
         }
-    
+
 * Install via:
 
         composer.phar install
@@ -40,9 +32,9 @@ Print a shipping label in 10 mins using our default USPS and DHL Express account
 * To use the bindings, either user Composer's autoload:
 
         require_once('vendor/autoload.php');
-        
+
     Or manually:
-    
+
         require_once('/path/to/vendor/shippo/shippo-php/lib/Shippo.php');
 
 ### Installing using Laravel
@@ -92,9 +84,9 @@ Simple usage looks like:
                  'email' => 'jmercouris@iit.com',
                  'metadata' => 'Customer ID 23424'
             ));
-            
+
         var_dump($address);
-```        
+```
 
 We've created a number of examples to cover the most common use cases. You can find the sample code files in the [examples folder](examples/).
 Some of the use cases we covered include:
