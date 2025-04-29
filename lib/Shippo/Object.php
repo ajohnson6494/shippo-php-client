@@ -12,7 +12,7 @@ class Shippo_Object implements ArrayAccess
      *    the parent class's URL (e.g. metadata).
      */
     public static $nestedUpdatableAttributes;
-    
+
     public static function init()
     {
         self::$permanentAttributes = new Shippo_Util_Set(array(
@@ -23,20 +23,20 @@ class Shippo_Object implements ArrayAccess
             'metadata'
         ));
     }
-    
+
     protected $_apiKey;
     protected $_values;
     protected $_unsavedValues;
     protected $_transientValues;
     protected $_retrieveOptions;
-    
+
     public function __construct($id = null, $apiKey = null)
     {
         $this->_apiKey = $apiKey;
         $this->_values = array();
         $this->_unsavedValues = new Shippo_Util_Set();
         $this->_transientValues = new Shippo_Util_Set();
-        
+
         $this->_retrieveOptions = array();
         if (is_array($id)) {
             foreach ($id as $key => $value) {
@@ -46,19 +46,19 @@ class Shippo_Object implements ArrayAccess
             }
             $id = $id['id'];
         }
-        
+
         if ($id !== null) {
             $this->id = $id;
         }
     }
-    
+
     // Standard accessor magic methods
     public function __set($k, $v)
     {
         if ($v === "") {
             throw new InvalidArgumentException('You cannot set \'' . $k . '\'to an empty string. ' . 'We interpret empty strings as NULL in requests. ' . 'You may set obj->' . $k . ' = NULL to delete the property');
         }
-        
+
         if (self::$nestedUpdatableAttributes->includes($k) && isset($this->$k) && is_array($v)) {
             $this->$k->replaceWith($v);
         } else {
@@ -94,32 +94,32 @@ class Shippo_Object implements ArrayAccess
             return null;
         }
     }
-    
+
     // ArrayAccess methods
-    public function offsetSet($k, $v)
+    public function offsetSet($k, $v): void
     {
         $this->$k = $v;
     }
-    
-    public function offsetExists($k)
+
+    public function offsetExists($k): void
     {
         return array_key_exists($k, $this->_values);
     }
-    
-    public function offsetUnset($k)
+
+    public function offsetUnset($k): void
     {
         unset($this->$k);
     }
-    public function offsetGet($k)
+    public function offsetGet($k): void
     {
         return array_key_exists($k, $this->_values) ? $this->_values[$k] : null;
     }
-    
+
     public function keys()
     {
         return array_keys($this->_values);
     }
-    
+
     /**
      * This unfortunately needs to be public to be used in Util.php
      *
@@ -135,7 +135,7 @@ class Shippo_Object implements ArrayAccess
         $obj->refreshFrom($values, $apiKey);
         return $obj;
     }
-    
+
     /**
      * @param array $values
      * @param string|null $apiKey
@@ -147,7 +147,7 @@ class Shippo_Object implements ArrayAccess
     {
         return self::scopedConstructFrom(__CLASS__, $values, $apiKey);
     }
-    
+
     /**
      * Refreshes this object using the provided values.
      *
@@ -158,7 +158,7 @@ class Shippo_Object implements ArrayAccess
     public function refreshFrom($values, $apiKey, $partial = false)
     {
         $this->_apiKey = $apiKey;
-        
+
         // Wipe old state before setting new.  This is useful for e.g. updating a
         // customer, where there is no persistent card parameter.  Mark those values
         // which don't persist as transient
@@ -167,28 +167,28 @@ class Shippo_Object implements ArrayAccess
         } else {
             $removed = array_diff(array_keys($this->_values), array_keys($values));
         }
-        
+
         foreach ($removed as $k) {
             if (self::$permanentAttributes->includes($k))
                 continue;
             unset($this->$k);
         }
-        
+
         foreach ($values as $k => $v) {
             if (self::$permanentAttributes->includes($k) && isset($this[$k]))
                 continue;
-            
+
             if (self::$nestedUpdatableAttributes->includes($k) && is_array($v)) {
                 $this->_values[$k] = Shippo_Object::scopedConstructFrom('Shippo_AttachedObject', $v, $apiKey);
             } else {
                 $this->_values[$k] = Shippo_Util::convertToShippoObject($v, $apiKey);
             }
-            
+
             $this->_transientValues->discard($k);
             $this->_unsavedValues->discard($k);
         }
     }
-    
+
     /**
      * @return array A recursive mapping of attributes to values for this object,
      *    including the proper value for deleted attributes.
@@ -205,7 +205,7 @@ class Shippo_Object implements ArrayAccess
                 $params[$k] = $v;
             }
         }
-        
+
         // Get nested updates.
         foreach (self::$nestedUpdatableAttributes->toArray() as $property) {
             if (isset($this->$property) && $this->$property instanceOf Shippo_Object) {
@@ -214,7 +214,7 @@ class Shippo_Object implements ArrayAccess
         }
         return $params;
     }
-    
+
     // Pretend to have late static bindings, even in PHP 5.2
     protected function _lsb($method)
     {
@@ -233,7 +233,7 @@ class Shippo_Object implements ArrayAccess
             $method
         ), $args);
     }
-    
+
     public function __toJSON()
     {
         if (defined('JSON_PRETTY_PRINT')) {
@@ -242,12 +242,12 @@ class Shippo_Object implements ArrayAccess
             return json_encode($this->__toArray(true));
         }
     }
-    
+
     public function __toString()
     {
         return $this->__toJSON();
     }
-    
+
     public function __toArray($recursive = false)
     {
         if ($recursive) {
