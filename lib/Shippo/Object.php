@@ -110,7 +110,7 @@ class Shippo_Object implements ArrayAccess
     {
         unset($this->$k);
     }
-    public function offsetGet($k): ?bool
+    public function offsetGet($k): mixed
     {
         return array_key_exists($k, $this->_values) ? $this->_values[$k] : null;
     }
